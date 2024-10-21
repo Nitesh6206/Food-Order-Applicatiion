@@ -15,9 +15,10 @@ app.use(express.urlencoded({ extended: true }));
 // Configure CORS
 const corsOptions = {
     origin: 'http://localhost:3000', // Frontend URL
-    credentials: true, // Allow credentials (cookies, authorization headers, etc.)
-};
-app.use(cors(corsOptions));
+    credentials: true, // Allow cookies and authorization headers
+  };
+  
+  app.use(cors(corsOptions));
 
 // Connect to MongoDB
 mongoose.connect(process.env.MONGO_URI, {
@@ -35,13 +36,11 @@ const menuRoutes = require('./routes/menu');
 app.use('/api/auth', authRoutes);
 app.use('/api/menu', menuRoutes);
 
-// Basic Route
-app.get('/', (req, res) => {
-    res.send('Hello, World!');
+
+const PORT = process.env.PORT || 5000; // Ensure this is a number, not a string
+
+// Fix: Remove any semicolons or quotes around the port number
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
 });
 
-// Start Server
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
-});
